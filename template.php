@@ -211,65 +211,30 @@ if (0 < $arResult["SECTIONS_COUNT"]) //TRUE
 
 $IBLOCK_ID = $arResult['SECTIONS'][0]['IBLOCK_ID'];
 $ELEMENT_ID = 4146; //ACER A1
+$PARENTS = array();
 
-/*
-$property_enums = CIBlockPropertyEnum::GetList(Array("DEF"=>"DESC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$IBLOCK_ID));
-while($enum_fields = $property_enums->GetNext())
-{
-  echo $enum_fields["ID"]." - ".$enum_fields["VALUE_ENUM"]."<br>";
-}
-*/
-
-
-		//$db_props = CIBlockElement::GetProperty($IBLOCK_ID, $ELEMENT_ID);
-$db_props = CIBlockElement::GetProperty($IBLOCK_ID);
-
-$PROPS = array();
-
-while($ar_props = $db_props->Fetch())
-{
-
-	//echo "<pre>";
-	//print_r($ar_props);
-	//echo "</pre>";
-
-	if($ar_props['DESCRIPTION'] == "Родитель")
-	{
-		//echo "<pre>";
-		//print_r($ar_props);
-		//echo "</pre>";
-
-	$PROPS[] = $ar_props['VALUE'];
-
-	}
-
-	//$PROPS[$ar_props['CODE']] = $ar_props['VALUE'];
-
-}
-
-
-		//echo "<pre>";
-		//print_r($PROPS);
-		//echo "</pre>";
-
-
-
-
-$arSelect = Array("ID", "IBLOCK_ID", "NAME");
-$arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>2), $arSelect);
+$arSelect = Array("ID", "IBLOCK_ID");
+//$arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+$arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID);
+//$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>2), $arSelect);
+$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
 while($ob = $res->GetNextElement())
 {
-	//$arFields = $ob->GetFields();
-	//print_r($arFields);
-
  $arProps = $ob->GetProperties();
-echo "<pre>";
- print_r($arProps['CML2_TRAITS']['VALUE'][5]);
-echo "</pre>";
+	//echo "<pre>";
+	//print_r($arProps['CML2_TRAITS']['VALUE'][5]);
+	//echo "</pre>";
+ $PARENTS[] = $arProps['CML2_TRAITS']['VALUE'][5];
 }
 
 
+$PARENTS = array_unique($PARENTS);
+
+sort($PARENTS);
+
+echo "<pre>";
+print_r($PARENTS);
+echo "<pre>";
 
 
 
