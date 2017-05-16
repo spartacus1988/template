@@ -13,6 +13,8 @@
 
 
 //echo "ТУТ";
+?><script src="http://code.jquery.com/jquery-1.8.3.js"></script><?
+
 
 
 function print_arr($array)
@@ -54,7 +56,7 @@ $arCurView = $arViewStyles[$arParams['VIEW_MODE']];
 
 
 
-?><div class="<? echo $arCurView['CONT']; ?>"><ul class="<? echo $arCurView['LIST']; ?>"><?
+?><div id="bx_sitemap" class="<? echo $arCurView['CONT']; ?>"><ul class="<? echo $arCurView['LIST']; ?>"><?
 
 
 
@@ -84,7 +86,7 @@ foreach ($PARENTS as &$value)
 {
 $temp_value = mb_strtolower($value);
 $temp_value = str_replace(' ', '_', $temp_value);
-?><li id="<?=$value;?>"><h2 class="bx_sitemap_li_title"><a href="<? echo "http://185.83.0.29/products/".$temp_value; ?>"><? echo $value;?><?
+    ?><li id="<?=$value;?>"><h2 class="bx_sitemap_li_title"><a href="<? echo "http://185.83.0.29/products/".$temp_value; ?>"><? echo $value;?></a></h2></li><?
 }
 
 
@@ -100,3 +102,30 @@ $temp_value = str_replace(' ', '_', $temp_value);
     echo ('LINE' != $arParams['VIEW_MODE'] ? '<div style="clear: both;"></div>' : '');
 
 ?></div>
+
+<script>
+
+$(document).ready(function() 
+{
+
+//$('div#bx_sitemap ul li').click(function(){
+//$("div#bx_sitemap ul li").on('click', function(){
+$('ul').on('click', 'li', function(){
+    var li_id = $(this).attr('id');
+    alert(li_id);
+
+// $.post( './123.php', {text:text},  function(ok){
+//alert(ok);
+//});
+
+
+
+});
+
+
+    //alert("document loaded");
+});
+
+
+</script>
+
