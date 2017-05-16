@@ -13,17 +13,15 @@
 
 
 //echo "ТУТ";
+//echo "КТО ЗДЕСЬ???";
 
-
-
+function print_arr($array)
+{
+	echo "<pre>".print_r($array, true)."</pre>";
+}
 
 
 $this->setFrameMode(true); //компонент голосует за технологию комозитный сайт
-
-
-//echo "<pre>";
-//print_r($arResult['VIEW_MODE_LIST']);
-//echo "<pre>";
 
 
 $arViewModeList = $arResult['VIEW_MODE_LIST'];
@@ -55,26 +53,11 @@ $arViewStyles = array(
 $arCurView = $arViewStyles[$arParams['VIEW_MODE']];
 
 
-//echo "<pre>";
-//print_r($arResult['VIEW_MODE']);
-//echo "<pre>";
 
 
 $strSectionEdit = CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "SECTION_EDIT");
 $strSectionDelete = CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "SECTION_DELETE");
 $arSectionDeleteParams = array("CONFIRM" => GetMessage('CT_BCSL_ELEMENT_DELETE_CONFIRM'));
-
-
-//echo "<pre>";
-//print_r($strSectionEdit);
-//print_r($strSectionDelete);
-//print_r($arSectionDeleteParams);
-//echo "<pre>";
-
-
-//echo "<pre>";
-//print_r($arParams['VIEW_MODE']);
-//echo "<pre>";
 
 
 ?><div class="<? echo $arCurView['CONT']; ?>"><?
@@ -198,73 +181,43 @@ if (0 < $arResult["SECTIONS_COUNT"]) //TRUE
 			}
 			unset($arSection);
 			break;
-		//THIS CASE!!!
+
+
+//THIS CASE!!!
 		case 'LIST':
 			$intCurrentDepth = 1;
 			$boolFirst = true;
 
-//echo "<pre>";
-//print_r($arResult['SECTIONS'][0]['IBLOCK_ID']);
-//print_r($arResult);
-//echo "<pre>";
-
 
 $IBLOCK_ID = $arResult['SECTIONS'][0]['IBLOCK_ID'];
-$ELEMENT_ID = 4146; //ACER A1
+//$ELEMENT_ID = 4146; //ACER A1
 $PARENTS = array();
 
 $arSelect = Array("ID", "IBLOCK_ID");
-//$arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 $arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID);
-//$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>2), $arSelect);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
 while($ob = $res->GetNextElement())
 {
  $arProps = $ob->GetProperties();
-	//echo "<pre>";
-	//print_r($arProps['CML2_TRAITS']['VALUE'][5]);
-	//echo "</pre>";
  $PARENTS[] = $arProps['CML2_TRAITS']['VALUE'][5];
 }
 
 
 $PARENTS = array_unique($PARENTS);
 
+$PARENTS = array_diff($PARENTS, array(0,'', NULL, false));
+
 sort($PARENTS);
 
-echo "<pre>";
-print_r($PARENTS);
-echo "<pre>";
+//print_arr($PARENTS);
 
 
-
-
-
-
-		/*
-while ($key = current($PROPS)) 
+foreach ($PARENTS as &$value)
 {
-	//if ($fruit_name == 'apple') 
-	//{
-        echo key($PROPS).'<br />';
-	// }
-    next($PROPS);
+$temp_value = mb_strtolower($value);
+$temp_value = str_replace(' ', '_', $temp_value);
+?><li id="<?=$value;?>"><h2 class="bx_sitemap_li_title"><a href="<? echo "http://185.83.0.29/products/".$temp_value; ?>"><? echo $value;?><?
 }
-*/
-
-
-
-
-
-
-
-		//foreach ($PROPS[] as &$arPROPS)
-		//{
-
-		//}
-
-
-
 
 
 
@@ -272,14 +225,6 @@ while ($key = current($PROPS))
 			{
 				$this->AddEditAction($arSection['ID'], $arSection['EDIT_LINK'], $strSectionEdit);
 				$this->AddDeleteAction($arSection['ID'], $arSection['DELETE_LINK'], $strSectionDelete, $arSectionDeleteParams);
-
-
-//echo "<pre>";
-//print_r($arSection);
-//print_r($intCurrentDepth);
-//print_r($arSection['RELATIVE_DEPTH_LEVEL']);
-//echo "<pre>";
-
 				if ($intCurrentDepth < $arSection['RELATIVE_DEPTH_LEVEL'])
 				{
 					if (0 < $intCurrentDepth)
