@@ -25,38 +25,7 @@ function print_arr($array)
 
 $this->setFrameMode(true); //компонент голосует за технологию комозитный сайт
 
-
-$arViewModeList = $arResult['VIEW_MODE_LIST'];
-
-$arViewStyles = array(
-    'LIST' => array(
-        'CONT' => 'bx_sitemap',
-        'TITLE' => 'bx_sitemap_title',
-        'LIST' => 'bx_sitemap_ul',
-    ),
-    'LINE' => array(
-        'CONT' => 'bx_catalog_line',
-        'TITLE' => 'bx_catalog_line_category_title',
-        'LIST' => 'bx_catalog_line_ul',
-        'EMPTY_IMG' => $this->GetFolder().'/images/line-empty.png'
-    ),
-    'TEXT' => array(
-        'CONT' => 'bx_catalog_text',
-        'TITLE' => 'bx_catalog_text_category_title',
-        'LIST' => 'bx_catalog_text_ul'
-    ),
-    'TILE' => array(
-        'CONT' => 'bx_catalog_tile',
-        'TITLE' => 'bx_catalog_tile_category_title',
-        'LIST' => 'bx_catalog_tile_ul',
-        'EMPTY_IMG' => $this->GetFolder().'/images/tile-empty.png'
-    )
-);
-$arCurView = $arViewStyles[$arParams['VIEW_MODE']];
-
-
-
-?><!--<div id="bx_sitemap" class="<? echo $arCurView['CONT']; ?>"><ul class="<? echo $arCurView['LIST']; ?>">-->
+?>
 <div class="left-category-menu hidden-sm hidden-xs">
     <div class="left-product-cat">
         <div class="category-heading">
@@ -88,22 +57,51 @@ sort($PARENTS);
 
 //print_arr($PARENTS);
 
-
+$PARENTS_counter = 0;
 foreach ($PARENTS as &$value)
+{
+
+$PARENTS_counter++;
+
+if ($PARENTS_counter<16)
+{
+
+$temp_value = mb_strtolower($value);
+$temp_value = str_replace(' ', '_', $temp_value);
+    ?><li id="<?=$value;?>"><a href="<? echo "/products/".$temp_value; ?>"><? echo $value;?></a></li>
+
+<?
+}
+else
 {
 $temp_value = mb_strtolower($value);
 $temp_value = str_replace(' ', '_', $temp_value);
-    ?><li id="<?=$value;?>"><a href="<? echo "/products/".$temp_value; ?>"><? echo $value;?></a></li><?
+    ?><li id="<?=$value;?>"  class=" rx-child"><a href="<? echo "/products/".$temp_value; ?>"><? echo $value;?></a></li>
+
+<?
+
 }
 
 
 
-
-
-
-
+}
+$PARENTS_counter = 0;
 
 ?>
+    <!--<li class=" rx-child">
+        <a href="shop.html">Books</a>
+    </li>-->
+    <li class=" rx-parent">
+        <a class="rx-default">
+            Все производители <span class="cat-thumb  fa fa-plus"></span> 
+        </a>
+        <a class="rx-show">
+            закрыть меню <span class="cat-thumb  fa fa-minus"></span>
+        </a>
+    </li>
+
+
+
             </ul>
         </div>
     </div>
@@ -111,7 +109,7 @@ $temp_value = str_replace(' ', '_', $temp_value);
 <?
     echo ('LINE' != $arParams['VIEW_MODE'] ? '<div style="clear: both;"></div>' : '');
 
-?><!--</div>-->
+?>
 
 <script>
 
