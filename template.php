@@ -56,7 +56,14 @@ $arCurView = $arViewStyles[$arParams['VIEW_MODE']];
 
 
 
-?><div id="bx_sitemap" class="<? echo $arCurView['CONT']; ?>"><ul class="<? echo $arCurView['LIST']; ?>"><?
+?><!--<div id="bx_sitemap" class="<? echo $arCurView['CONT']; ?>"><ul class="<? echo $arCurView['LIST']; ?>">-->
+<div class="left-category-menu hidden-sm hidden-xs">
+    <div class="left-product-cat">
+        <div class="category-heading">
+            <h2>производители</h2>
+        </div>
+        <div class="category-menu-list">
+            <ul><?
 
 
 
@@ -86,7 +93,7 @@ foreach ($PARENTS as &$value)
 {
 $temp_value = mb_strtolower($value);
 $temp_value = str_replace(' ', '_', $temp_value);
-    ?><li id="<?=$value;?>"><h2 class="bx_sitemap_li_title"><a href="<? echo "http://185.83.0.29/products/".$temp_value; ?>"><? echo $value;?></a></h2></li><?
+    ?><li id="<?=$value;?>"><a href="<? echo "/products/".$temp_value; ?>"><? echo $value;?></a></li><?
 }
 
 
@@ -97,22 +104,22 @@ $temp_value = str_replace(' ', '_', $temp_value);
 
 
 ?>
-</ul>
+            </ul>
+        </div>
+    </div>
+</div>
 <?
     echo ('LINE' != $arParams['VIEW_MODE'] ? '<div style="clear: both;"></div>' : '');
 
-?></div>
+?><!--</div>-->
 
 <script>
 
 $(document).ready(function() 
 {
-
-//$('div#bx_sitemap ul li').click(function(){
-//$("div#bx_sitemap ul li").on('click', function(){
 $('ul').on('click', 'li', function(){
     var li_id = $(this).attr('id');
-    alert(li_id);
+    // alert(li_id);
 
 // $.post( './123.php', {text:text},  function(ok){
 //alert(ok);
@@ -122,8 +129,6 @@ $('ul').on('click', 'li', function(){
 
 });
 
-
-    //alert("document loaded");
 });
 
 
