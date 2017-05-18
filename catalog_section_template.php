@@ -11,13 +11,70 @@
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true); //компонент голосует за технологию комозитный сайт
+global $IBLOCK_ID;
 
+
+//phpinfo();
 //echo "catalog-section";
 $page = $APPLICATION->GetCurPage();
 //echo $page;
 
 $page_mas = explode("/", $page);
-echo "<br>" . $page_mas[2];
+//echo "<br>" . $page_mas[2];
+$curProducer = $page_mas[2];
+$curProducer = mb_strtoupper($curProducer);
+$curProducer = str_replace('_', ' ', $curProducer);
+//echo "<br>" . $curProducer;
+
+
+
+
+$curElemName = array();
+$curElemPicture = array();
+
+$arSelect = Array("ID", "IBLOCK_ID", "NAME", "PREVIEW_PICTURE");
+$arFilter = Array("IBLOCK_ID"=>$IBLOCK_ID);
+$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
+while($ob = $res->GetNextElement())
+{
+ $arProps = $ob->GetProperties();
+ if ($arProps['CML2_TRAITS']['VALUE'][5] == $curProducer)
+ {
+	$ar_fields = $ob->GetFields();
+	$curElemName[] = $ar_fields['NAME'];
+	$curElemPicture[] = $ar_fields;
+ }
+}
+
+sort($curElemName);
+//print_arr($curElemName);
+
+
+
+foreach ($curElemName as &$value)
+{
+	foreach ($curElemPicture as &$picture)
+	{
+		if($value == $picture['NAME'])
+		{
+			//$PIC = CFile::GetPath($arItem["PICTURE"]);
+			?><img src="<?=CFile::GetPath($picture["PREVIEW_PICTURE"])?>"><?
+		}
+	}
+
+$temp_value = mb_strtolower($value);
+$temp_value = str_replace(' ', '_', $temp_value);
+$temp_value = str_replace('+', 'plus', $temp_value);
+	?><li id="<?=$value;?>"><a href="<? echo "/products/".$temp_value; ?>"><? echo $value;?></a></li><?
+}
+
+
+//print_arr($curElemName);
+
+
+///echo "IBLOCK_ID " . $IBLOCK_ID;
+
+
 
 
 ?>
