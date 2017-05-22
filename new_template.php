@@ -65,6 +65,12 @@ foreach ($article_accum_mas as &$value)
       //print_r($arProps);
       //echo "</pre>";
 
+$obElement = CIBlockElement::GetByID($ar_fields['ID']);
+if($arEl = $obElement->GetNext())
+{
+//echo "<br>" . "название " . $arEl['NAME'];
+}
+//echo "<br>" . "название " . $arEl['NAME'];
 //echo "<br>" . $value;
 //echo "<br>" . "ID " . $ar_fields['ID'];
 //echo "<br>";
@@ -100,6 +106,7 @@ if ($arPrice = $rsPrices->Fetch())
             <span class="price"><?=$B2C_PRICE?></span>
           </div>
           <p class="description">
+            НАЗВАНИЕ БАТАРЕЙКИ <?=$arEl['NAME']?>                              <br>
             Артикул            <?=$value?>                                     <br>
             Напряжение, V      <?=$arProps['NAPRYAZHENIE_V']['VALUE']?>        <br>
             Емкость, mAh       <?=$arProps['EMKOST_MAH']['VALUE']?>            <br>
